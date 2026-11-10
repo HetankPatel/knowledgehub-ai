@@ -4,6 +4,10 @@ KnowledgeHub AI is a document question-answering application built with Python a
 
 Users can upload TXT, Markdown, or PDF documents and ask questions about their content. The application finds the most relevant part of the uploaded documents and uses a pretrained DistilBERT model to extract an answer.
 
+## Demo
+
+![KnowledgeHub AI Demo](images/knowledgehub-demo.png)
+
 ## Features
 
 - Upload TXT, Markdown, and PDF documents
