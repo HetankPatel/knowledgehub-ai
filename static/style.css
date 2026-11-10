@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 50px auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+input {
+    padding: 10px;
+    margin-right: 8px;
+    margin-bottom: 10px;
+}
+
+input[type="text"] {
+    width: 65%;
+}
+
+button {
+    padding: 10px 16px;
+    cursor: pointer;
+}
+
+#answer {
+    margin-top: 15px;
+}
