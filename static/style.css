@@ -1,60 +1,180 @@
+* {
+    box-sizing: border-box;
+}
+
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #f4f6f8;
+    color: #222222;
     margin: 0;
-    padding: 0;
 }
+
+
+.hero {
+    background-color: #1f2937;
+    color: white;
+    text-align: center;
+    padding: 45px 20px;
+}
+
+
+.hero h1 {
+    margin: 0 0 10px 0;
+    font-size: 36px;
+}
+
+
+.hero p {
+    margin: 0;
+    font-size: 17px;
+}
+
 
 .container {
     width: 90%;
-    max-width: 800px;
-    margin: 50px auto;
+    max-width: 850px;
+    margin: 35px auto;
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.subtitle {
-    text-align: center;
-    margin-bottom: 30px;
-}
 
 .card {
     background-color: white;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 22px;
+    border-radius: 10px;
+    border: 1px solid #dddddd;
 }
 
-input {
-    padding: 10px;
-    margin-right: 8px;
-    margin-bottom: 10px;
+
+.card h2 {
+    margin-top: 0;
 }
+
+
+.description {
+    color: #555555;
+}
+
+
+input[type="file"] {
+    margin: 10px 10px 10px 0;
+}
+
+
+.question-row {
+    display: flex;
+    gap: 10px;
+}
+
 
 input[type="text"] {
-    width: 65%;
+    flex: 1;
+    padding: 11px;
+    border: 1px solid #bbbbbb;
+    border-radius: 5px;
+    font-size: 15px;
 }
 
+
 button {
-    padding: 10px 16px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 11px 17px;
+    border-radius: 5px;
     cursor: pointer;
 }
 
-#answer {
-    margin-top: 15px;
+
+button:hover {
+    background-color: #1d4ed8;
 }
+
 
 .document-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #dddddd;
+    padding: 12px 0;
+    border-bottom: 1px solid #eeeeee;
 }
+
 
 .document-row:last-child {
     border-bottom: none;
+}
+
+
+.document-row button {
+    background-color: #dc2626;
+    padding: 7px 12px;
+}
+
+
+.document-row button:hover {
+    background-color: #b91c1c;
+}
+
+
+.message {
+    min-height: 20px;
+}
+
+
+.answer-box {
+    margin-top: 18px;
+    padding: 16px;
+    background-color: #f8fafc;
+    border-left: 4px solid #2563eb;
+    min-height: 55px;
+}
+
+
+.answer-text {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+
+.source-text {
+    color: #555555;
+}
+
+
+.confidence-text {
+    color: #777777;
+    font-size: 14px;
+}
+
+
+.how-it-works li {
+    margin-bottom: 9px;
+}
+
+
+footer {
+    text-align: center;
+    color: #666666;
+    padding: 20px;
+}
+
+
+@media (max-width: 600px) {
+
+    .question-row {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    .document-row {
+        gap: 15px;
+    }
+
+    .document-row button {
+        width: auto;
+    }
 }

@@ -4,6 +4,9 @@ const uploadButton =
 const askButton =
     document.getElementById("ask-button");
 
+const questionInput =
+    document.getElementById("question");
+
 
 async function displayDocuments() {
 
@@ -33,7 +36,8 @@ async function displayDocuments() {
         const row =
             document.createElement("div");
 
-        row.className = "document-row";
+        row.className =
+            "document-row";
 
 
         const name =
@@ -112,88 +116,14 @@ uploadButton.addEventListener(
             "Uploading...";
 
 
-        const response =
-            await fetch(
-                "/api/documents",
-                {
-                    method: "POST",
-                    body: formData
-                }
-            );
-
-
-        const result =
-            await response.json();
-
-
-        if (response.ok) {
-
-            message.textContent =
-                result.filename +
-                " uploaded successfully.";
-
-            fileInput.value = "";
-
-            displayDocuments();
-
-        } else {
-
-            message.textContent =
-                result.detail ||
-                "Upload failed.";
-        }
-    }
-);
-
-
-askButton.addEventListener(
-    "click",
-    async function () {
-
-        const questionInput =
-            document.getElementById(
-                "question"
-            );
-
-        const answerBox =
-            document.getElementById(
-                "answer"
-            );
-
-
-        const question =
-            questionInput.value.trim();
-
-
-        if (!question) {
-
-            answerBox.textContent =
-                "Please enter a question.";
-
-            return;
-        }
-
-
-        answerBox.textContent =
-            "Finding an answer...";
-
-
         try {
 
             const response =
                 await fetch(
-                    "/api/ask",
+                    "/api/documents",
                     {
                         method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body: JSON.stringify({
-                            question: question
-                        })
+                        body: formData
                     }
                 );
 
@@ -202,44 +132,165 @@ askButton.addEventListener(
                 await response.json();
 
 
-            if (!response.ok) {
+            if (response.ok) {
 
-                answerBox.textContent =
-                    result.detail;
+                message.textContent =
+                    result.filename +
+                    " uploaded successfully.";
 
-                return;
+                fileInput.value = "";
+
+                displayDocuments();
+
+            } else {
+
+                message.textContent =
+                    result.detail ||
+                    "Upload failed.";
             }
-
-
-            answerBox.innerHTML = "";
-
-
-            const answer =
-                document.createElement("p");
-
-            answer.textContent =
-                "Answer: " + result.answer;
-
-
-            answerBox.appendChild(answer);
-
-
-            if (result.source) {
-
-                const source =
-                    document.createElement("p");
-
-                source.textContent =
-                    "Source: " + result.source;
-
-                answerBox.appendChild(source);
-            }
-
 
         } catch (error) {
 
+            message.textContent =
+                "Something went wrong during the upload.";
+        }
+    }
+);
+
+
+async function askQuestion() {
+
+    const answerBox =
+        document.getElementById(
+            "answer"
+        );
+
+
+    const question =
+        questionInput.value.trim();
+
+
+    if (!question) {
+
+        answerBox.textContent =
+            "Please enter a question.";
+
+        return;
+    }
+
+
+    answerBox.textContent =
+        "Searching documents and generating an answer...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/ask",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        question: question
+                    })
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
             answerBox.textContent =
-                "Something went wrong while answering the question.";
+                result.detail;
+
+            return;
+        }
+
+
+        answerBox.innerHTML = "";
+
+
+        const answer =
+            document.createElement("p");
+
+        answer.className =
+            "answer-text";
+
+        answer.textContent =
+            "Answer: " + result.answer;
+
+
+        answerBox.appendChild(answer);
+
+
+        if (result.source) {
+
+            const source =
+                document.createElement("p");
+
+            source.className =
+                "source-text";
+
+            source.textContent =
+                "Source: " + result.source;
+
+            answerBox.appendChild(source);
+        }
+
+
+        if (result.confidence !== undefined) {
+
+            const confidence =
+                document.createElement("p");
+
+            confidence.className =
+                "confidence-text";
+
+            const percent =
+                Math.round(
+                    result.confidence * 100
+                );
+
+            confidence.textContent =
+                "Model confidence: " +
+                percent +
+                "%";
+
+            answerBox.appendChild(
+                confidence
+            );
+        }
+
+    } catch (error) {
+
+        answerBox.textContent =
+            "Something went wrong while answering the question.";
+    }
+}
+
+
+askButton.addEventListener(
+    "click",
+    askQuestion
+);
+
+
+questionInput.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (event.key === "Enter") {
+
+            askQuestion();
         }
     }
 );

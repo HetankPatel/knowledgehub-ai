@@ -19,21 +19,25 @@
 
 <body>
 
-    <main class="container">
+    <header class="hero">
 
         <h1>KnowledgeHub AI</h1>
 
-        <p class="subtitle">
-            Upload documents and ask questions about their content.
+        <p>
+            Upload documents and ask questions about their content using AI.
         </p>
 
+    </header>
+
+
+    <main class="container">
 
         <section class="card">
 
-            <h2>Upload a Document</h2>
+            <h2>1. Upload a Document</h2>
 
-            <p>
-                Supported files: TXT, Markdown, and PDF
+            <p class="description">
+                Upload a TXT, Markdown, or PDF file up to 5 MB.
             </p>
 
             <input
@@ -43,17 +47,20 @@
             >
 
             <button id="upload-button">
-                Upload
+                Upload Document
             </button>
 
-            <p id="upload-message"></p>
+            <p
+                id="upload-message"
+                class="message"
+            ></p>
 
         </section>
 
 
         <section class="card">
 
-            <h2>Your Documents</h2>
+            <h2>2. Your Documents</h2>
 
             <div id="document-list">
                 No documents uploaded yet.
@@ -64,25 +71,62 @@
 
         <section class="card">
 
-            <h2>Ask a Question</h2>
+            <h2>3. Ask a Question</h2>
 
-            <input
-                type="text"
-                id="question"
-                placeholder="Ask something about your documents..."
+            <p class="description">
+                Ask something that can be answered using your uploaded documents.
+            </p>
+
+            <div class="question-row">
+
+                <input
+                    type="text"
+                    id="question"
+                    maxlength="500"
+                    placeholder="Example: What database does the project use?"
+                >
+
+                <button id="ask-button">
+                    Ask AI
+                </button>
+
+            </div>
+
+
+            <div
+                id="answer"
+                class="answer-box"
             >
-
-            <button id="ask-button">
-                Ask
-            </button>
-
-            <div id="answer">
-                AI question answering will be added next.
+                Your answer will appear here.
             </div>
 
         </section>
 
+
+        <section class="card how-it-works">
+
+            <h2>How It Works</h2>
+
+            <ol>
+                <li>Your document text is stored in SQLite.</li>
+                <li>The document is split into smaller sections.</li>
+                <li>TF-IDF finds the section most related to your question.</li>
+                <li>DistilBERT extracts an answer from that section.</li>
+                <li>The answer and its source document are shown to you.</li>
+            </ol>
+
+        </section>
+
     </main>
+
+
+    <footer>
+
+        <p>
+            KnowledgeHub AI - Student AI Project
+        </p>
+
+    </footer>
 
 
     <script src="/static/app.js"></script>
