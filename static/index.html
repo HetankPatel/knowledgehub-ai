@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>KnowledgeHub AI</title>
 
-    <link rel="stylesheet" href="/static/style.css">
+    <link
+        rel="stylesheet"
+        href="/static/style.css"
+    >
 </head>
 
 <body>
@@ -19,21 +27,43 @@
             Upload documents and ask questions about their content.
         </p>
 
+
         <section class="card">
+
             <h2>Upload a Document</h2>
 
-            <input type="file" id="document-file">
+            <p>
+                Supported files: TXT, Markdown, and PDF
+            </p>
+
+            <input
+                type="file"
+                id="document-file"
+                accept=".txt,.md,.pdf"
+            >
 
             <button id="upload-button">
                 Upload
             </button>
 
-            <p id="upload-message">
-                Document upload will be added next.
-            </p>
+            <p id="upload-message"></p>
+
         </section>
 
+
         <section class="card">
+
+            <h2>Your Documents</h2>
+
+            <div id="document-list">
+                No documents uploaded yet.
+            </div>
+
+        </section>
+
+
+        <section class="card">
+
             <h2>Ask a Question</h2>
 
             <input
@@ -47,13 +77,16 @@
             </button>
 
             <div id="answer">
-                AI question answering will be added later.
+                AI question answering will be added next.
             </div>
+
         </section>
 
     </main>
 
+
     <script src="/static/app.js"></script>
 
 </body>
+
 </html>
