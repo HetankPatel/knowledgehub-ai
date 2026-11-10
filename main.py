@@ -107,6 +107,14 @@ async def upload_document(
     file_bytes = await file.read()
 
 
+    if len(file_bytes) > 5 * 1024 * 1024:
+
+        raise HTTPException(
+            status_code=400,
+            detail="Files must be smaller than 5 MB."
+        )
+
+
     text = extract_text(
         file.filename,
         file_bytes
@@ -177,6 +185,14 @@ def ask_question(request: QuestionRequest):
         raise HTTPException(
             status_code=400,
             detail="Please enter a question."
+        )
+
+
+    if len(question) > 500:
+
+        raise HTTPException(
+            status_code=400,
+            detail="Questions must be 500 characters or less."
         )
 
 
