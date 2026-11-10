@@ -1,21 +1,28 @@
-const uploadButton = document.getElementById("upload-button");
-const askButton = document.getElementById("ask-button");
+const uploadButton =
+    document.getElementById("upload-button");
+
+const askButton =
+    document.getElementById("ask-button");
 
 
 async function displayDocuments() {
 
-    const response = await fetch("/api/documents");
+    const response =
+        await fetch("/api/documents");
 
-    const documents = await response.json();
+    const documents =
+        await response.json();
 
-    const documentList = document.getElementById("document-list");
+    const documentList =
+        document.getElementById("document-list");
 
     documentList.innerHTML = "";
 
 
     if (documents.length === 0) {
 
-        documentList.textContent = "No documents uploaded yet.";
+        documentList.textContent =
+            "No documents uploaded yet.";
 
         return;
     }
@@ -23,32 +30,40 @@ async function displayDocuments() {
 
     documents.forEach(function (item) {
 
-        const row = document.createElement("div");
+        const row =
+            document.createElement("div");
 
         row.className = "document-row";
 
 
-        const name = document.createElement("span");
+        const name =
+            document.createElement("span");
 
-        name.textContent = item.filename;
-
-
-        const deleteButton = document.createElement("button");
-
-        deleteButton.textContent = "Delete";
+        name.textContent =
+            item.filename;
 
 
-        deleteButton.addEventListener("click", async function () {
+        const deleteButton =
+            document.createElement("button");
 
-            await fetch(
-                "/api/documents/" + item.id,
-                {
-                    method: "DELETE"
-                }
-            );
+        deleteButton.textContent =
+            "Delete";
 
-            displayDocuments();
-        });
+
+        deleteButton.addEventListener(
+            "click",
+            async function () {
+
+                await fetch(
+                    "/api/documents/" + item.id,
+                    {
+                        method: "DELETE"
+                    }
+                );
+
+                displayDocuments();
+            }
+        );
 
 
         row.appendChild(name);
@@ -60,69 +75,174 @@ async function displayDocuments() {
 }
 
 
-uploadButton.addEventListener("click", async function () {
+uploadButton.addEventListener(
+    "click",
+    async function () {
 
-    const fileInput =
-        document.getElementById("document-file");
+        const fileInput =
+            document.getElementById(
+                "document-file"
+            );
 
-    const message =
-        document.getElementById("upload-message");
-
-
-    if (fileInput.files.length === 0) {
-
-        message.textContent =
-            "Please choose a file first.";
-
-        return;
-    }
+        const message =
+            document.getElementById(
+                "upload-message"
+            );
 
 
-    const formData = new FormData();
+        if (fileInput.files.length === 0) {
 
-    formData.append(
-        "file",
-        fileInput.files[0]
-    );
+            message.textContent =
+                "Please choose a file first.";
 
-
-    message.textContent = "Uploading...";
-
-
-    const response = await fetch(
-        "/api/documents",
-        {
-            method: "POST",
-            body: formData
+            return;
         }
-    );
 
 
-    const result = await response.json();
+        const formData =
+            new FormData();
 
+        formData.append(
+            "file",
+            fileInput.files[0]
+        );
 
-    if (response.ok) {
 
         message.textContent =
-            result.filename + " uploaded successfully.";
+            "Uploading...";
 
-        fileInput.value = "";
 
-        displayDocuments();
+        const response =
+            await fetch(
+                "/api/documents",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
 
-    } else {
 
-        message.textContent =
-            result.detail || "Upload failed.";
+        const result =
+            await response.json();
+
+
+        if (response.ok) {
+
+            message.textContent =
+                result.filename +
+                " uploaded successfully.";
+
+            fileInput.value = "";
+
+            displayDocuments();
+
+        } else {
+
+            message.textContent =
+                result.detail ||
+                "Upload failed.";
+        }
     }
-});
+);
 
 
-askButton.addEventListener("click", function () {
+askButton.addEventListener(
+    "click",
+    async function () {
 
-    document.getElementById("answer").textContent =
-        "AI question answering will be added in the next commit.";
-});
+        const questionInput =
+            document.getElementById(
+                "question"
+            );
+
+        const answerBox =
+            document.getElementById(
+                "answer"
+            );
+
+
+        const question =
+            questionInput.value.trim();
+
+
+        if (!question) {
+
+            answerBox.textContent =
+                "Please enter a question.";
+
+            return;
+        }
+
+
+        answerBox.textContent =
+            "Finding an answer...";
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/ask",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            question: question
+                        })
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                answerBox.textContent =
+                    result.detail;
+
+                return;
+            }
+
+
+            answerBox.innerHTML = "";
+
+
+            const answer =
+                document.createElement("p");
+
+            answer.textContent =
+                "Answer: " + result.answer;
+
+
+            answerBox.appendChild(answer);
+
+
+            if (result.source) {
+
+                const source =
+                    document.createElement("p");
+
+                source.textContent =
+                    "Source: " + result.source;
+
+                answerBox.appendChild(source);
+            }
+
+
+        } catch (error) {
+
+            answerBox.textContent =
+                "Something went wrong while answering the question.";
+        }
+    }
+);
 
 
 displayDocuments();

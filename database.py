@@ -89,3 +89,33 @@ def delete_document(document_id):
 
 
 create_table()
+
+
+def get_documents_with_content():
+    """Return document names and their stored text."""
+
+    connection = get_connection()
+
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        SELECT id, filename, content
+        FROM documents
+    """)
+
+    rows = cursor.fetchall()
+
+    connection.close()
+
+
+    documents = []
+
+    for row in rows:
+
+        documents.append({
+            "id": row[0],
+            "filename": row[1],
+            "content": row[2]
+        })
+
+    return documents
